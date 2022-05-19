@@ -10,7 +10,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		Matrix mi_matrix1 = new Matrix("pepe", new double[][] {{1,2,3},{4,5,6},{7,8,9}} ) ;
 		Matrix mi_matrix2 = new Matrix("juan", new double[][] {{1,0,1},{1,1,1},{0,0,0}} ) ;
-		Matrix mi_matrix3 = new Matrix());
+
 		
 		
 		
