@@ -1,0 +1,11 @@
+package Matrix;
+
+public class Matrix {
+	protected int filas;
+	protected int columnas;
+	public int[] getDimensiones()
+	{
+		return new int [] {this.filas,this.columnas};
+	}
+	
+}

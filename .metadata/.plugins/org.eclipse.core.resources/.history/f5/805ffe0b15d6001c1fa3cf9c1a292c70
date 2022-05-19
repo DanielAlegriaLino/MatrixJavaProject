@@ -1,0 +1,7 @@
+package Matrix;
+
+public class MathMatrix {
+	public static boolean CompareDim(Matrix B,Matrix A){
+		return  A.getDimensiones() == B.getDimensiones();
+	}
+}

@@ -1,0 +1,41 @@
+package Matrix;
+
+public class Matrix {
+	protected int filas;
+	protected int columnas;
+	protected String nombre;
+	protected int[] dimensiones;
+	protected double[][] content;
+	
+	public Matrix(int filas, int columnas, String nombre) 
+	{
+		this.filas = filas;
+		this.columnas = columnas;
+		this.nombre = nombre;
+		
+	}
+	
+	public int[] getDimensiones()
+	{
+		return new int [] {this.filas,this.columnas};
+	}
+	
+	public boolean IsSquared()
+	{
+		if(this.filas == this.columnas) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	public void Suma(Matrix B) {
+		
+	}
+	
+	
+}
+
+
+
+

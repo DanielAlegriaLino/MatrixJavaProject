@@ -1,0 +1,8 @@
+package Matrix;
+
+public class MathMatrix {
+	public static boolean CompareDim(Matrix B,Matrix A){
+		if(B.filas == B.filas) {
+			
+		}
+}
