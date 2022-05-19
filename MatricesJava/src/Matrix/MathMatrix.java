@@ -1,5 +1,7 @@
 package Matrix;
 
+import java.util.Iterator;
+
 public class MathMatrix {
 	public static boolean compareDim(Matrix Matrix_B,Matrix Matrix_A){
 		return  Matrix_A.getDimensiones()[0] == Matrix_B.getDimensiones()[0] &&
@@ -19,13 +21,11 @@ public class MathMatrix {
 			Matrix matrix_aux = new Matrix(MatrixA.filas, MatrixB.columnas, "aux");
 			for(int i=0; i<MatrixA.filas; i++) {
 				for(int j=0; j<MatrixA.columnas;j++) {
-					matrix_aux.content[i][j]= MatrixA.content[i][j]+MatrixB.content[i][j];
+					matrix_aux.content[i][j]= MatrixA.content[i][j]+MatrixB.content[j][i];
 				}
 			}
 			return matrix_aux;
 		}
-		
-
 	}
 
 	public static Matrix MultiplicacionEscalar(Matrix MatrixA,int escalar) {
@@ -44,7 +44,11 @@ public class MathMatrix {
 			throw new Error("Matrixes Are Not Compatible, Thus This Can't Be Done");
 		}
 		else{
-			
+			for(int i = 0; i<MatrixA.getDimensiones()[0]; i++) {
+				for(int j = 0; j<MatrixA.getDimensiones()[1];j++) {
+					matrix_aux.content[i][j] = MatrixA.content[i][j]*MatrixB.content[j][i];
+				}
+			}
 		}
 		return matrix_aux;
 	}
