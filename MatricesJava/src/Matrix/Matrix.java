@@ -42,9 +42,6 @@ public class Matrix {
 	}
 	
 	
-	public void Suma(Matrix B) {
-		
-	}
 	
 	
 }
