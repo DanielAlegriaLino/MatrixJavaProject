@@ -1,5 +1,6 @@
 package Matrix;
-
+import java.io.*;
+import java.util.*;
 public class Matrix {
 	protected int filas;
 	protected int columnas;
@@ -41,7 +42,28 @@ public class Matrix {
 		return false;
 	}
 	
-	
+	public void ShowMatrix() {
+		/*for(int i = 0; i<this.getDimensiones()[0];i++) {
+			for(int j = 0; j<this.getDimensiones()[1];j++){
+				if( j+1 == this.getDimensiones()[1]) {
+					System.out.println(this.content[i][j]);
+				}
+				else {
+					System.out.print(this.content [i][j] + " ");
+				}
+			}
+		}*/
+		for(double[] row : this.content) {
+			System.out.println(Arrays.toString(row));
+		}
+	}
+	public void FillZero() {
+		for(int i = 0; i<this.getDimensiones()[0];i++) {
+			for(int j = 0; j<this.getDimensiones()[1]; j++) {
+				this.content[i][j] = 0;
+			}
+		}
+	}
 	
 	
 }
