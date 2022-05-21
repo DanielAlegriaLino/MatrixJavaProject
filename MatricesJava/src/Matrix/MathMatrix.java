@@ -69,8 +69,6 @@ public class MathMatrix {
 			int floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
 			while( !(ceil == floor)) {
 				nueva_dim++;
-				ceil = (int) (Math.ceil((Math.log(nueva_dim/Math.log(2)))));
-				floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
 			}
 		}
 		else if(MatrixA.getDimensiones()[1]>MatrixA.getDimensiones()[0]) {
@@ -79,8 +77,6 @@ public class MathMatrix {
 			int floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
 			while( !(ceil == floor)) {
 				nueva_dim++;
-				ceil = (int) (Math.ceil((Math.log(nueva_dim/Math.log(2)))));
-				floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
 			}
 		}
 		else {
@@ -89,8 +85,6 @@ public class MathMatrix {
 			int floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
 			while( !(ceil == floor)) {
 				nueva_dim++;
-				ceil = (int) (Math.ceil((Math.log(nueva_dim/Math.log(2)))));
-				floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
 			}
 		}
 		Matrix matrix_aux = new Matrix(nueva_dim, nueva_dim,"aux");
