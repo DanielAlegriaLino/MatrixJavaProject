@@ -148,7 +148,7 @@ public class MathMatrix {
 				determinante = determinante3x3(matrixA, matrixDet);
 			}
 			else if(matrixA.getDimensiones()[0]==2) {
-				determinante = matrixA.getContent()[0][0]*matrixA.getContent()[1][1]-matrixA.getContent()[1][0]*matrixA.getContent()[1][1];
+				determinante = matrixA.getContent()[0][0]*matrixA.getContent()[1][1]-matrixA.getContent()[1][0]*matrixA.getContent()[0][1];
 				
 			}
 		}
@@ -157,12 +157,12 @@ public class MathMatrix {
 	
 	public static double determinante3x3(Matrix matrixA,Matrix Det3x3) {
 		double multipDiagonal1 = 0;
-		for(int i = 0;i<matrixA.getDimensiones()[0];i++) {
-			multipDiagonal1 += (Det3x3.getContent()[i][i]*Det3x3.getContent()[i+1][i+1]*Det3x3.getContent()[i+2][i+2]);
+		for(int i = 0; i < 3; i++) {
+			multipDiagonal1 += (Det3x3.getContent()[i][0]*Det3x3.getContent()[i+1][1]*Det3x3.getContent()[i+2][2]);
 		}
 		double multipDiagonal2 = 0;
-		for(int i = Det3x3.getDimensiones()[0]-1;i>2;i--) {
-			multipDiagonal2 += (Det3x3.getContent()[i][i]*Det3x3.getContent()[i-1][i+1]*Det3x3.getContent()[i-2][i+2]);
+		for(int i = Det3x3.getDimensiones()[0]-1;i>=2;i--) {
+			multipDiagonal2 += (Det3x3.getContent()[i][0]*Det3x3.getContent()[i-1][1]*Det3x3.getContent()[i-2][2]);
 		}
 		double determinante = multipDiagonal1-multipDiagonal2;
 		return determinante;
@@ -170,7 +170,7 @@ public class MathMatrix {
 	
 	public static Matrix DeterminantMatrix(Matrix matrixA) {
 		Matrix Det3x3 = new Matrix(5,3, "Roberto");
-		Det3x3 = MathMatrix.MatrixSumException(Det3x3, matrixA);
+		Det3x3 = MathMatrix.MatrixSumException(matrixA, Det3x3);
 		for(int i = 0; i < 2; i++) {
 			for(int j = 0; j < Det3x3.getDimensiones()[1]; j++) {
 				Det3x3.content[i+3][j] = matrixA.content[i][j]; 
