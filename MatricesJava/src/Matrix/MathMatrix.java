@@ -2,9 +2,11 @@ package Matrix;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
+import java.util.Arrays;
 
 public class MathMatrix {
-	public static boolean compareDim(Matrix Matrix_B,Matrix Matrix_A){
+    
+	private static boolean compareDim(Matrix Matrix_B,Matrix Matrix_A){
 		return  Matrix_A.getDimensiones()[0] == Matrix_B.getDimensiones()[0] &&
 				Matrix_A.getDimensiones()[1] == Matrix_B.getDimensiones()[1] ;
 	}
@@ -61,7 +63,7 @@ public class MathMatrix {
 		}
 	}
 	
-	public static Matrix MakePowerOf2(Matrix MatrixA) {
+	private static Matrix MakePowerOf2(Matrix MatrixA) {
 		int nueva_dim = 0;
 		if(MatrixA.getDimensiones()[0]>MatrixA.getDimensiones()[1]) {
 			nueva_dim = MatrixA.getDimensiones()[0];
@@ -103,6 +105,50 @@ public class MathMatrix {
 		}
 		return matrix_aux;
 		}	
+	
+	
+	
+	public static Matrix Multiplicar(Matrix matrixA,Matrix matrixB) 
+	{
+        Matrix matrixC = new Matrix ("Juancho", new double[matrixA.getContent().length][matrixA.getContent().length]) ;
+        for (int i = 0; i < matrixA.getContent().length; i++){
+            for (int j = 0; j < matrixA.getContent().length; j++){
+            matrixC.getContent()[i][j] = 0;
+            for (int k = 0; k < matrixA.getContent().length; k++)
+            {
+                matrixC.getContent()[i][j] += matrixA.getContent()[i][k]*matrixB.getContent()[k][j];
+
+            }
+
+            
+            
+         }
+    }
+                    return matrixC;
+        }
+		
+		
+
+	
+                
+	public static Matrix getCuadrante(Matrix matrixA , int posX1 , int posY1, int posX2, int posY2) 
+	{
+		Matrix matrix_sliced;
+                matrix_sliced= new Matrix("aux", new double [posY2-posY1][posX2-posX1]);
+                
+		for(int i = posY1; i< posY2; i++) 
+                {
+                    for (int j = posX1 ; j < posX2; j++)
+                    {
+                        matrix_sliced.content[i-posY1][j-posX1]= matrixA.content[i][j];
+                    }
+                }
+
+		return  matrix_sliced;
+	}
+	
+        
+	
 }
 
 
