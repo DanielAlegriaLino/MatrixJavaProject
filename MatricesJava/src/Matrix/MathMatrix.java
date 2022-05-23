@@ -58,36 +58,43 @@ public class MathMatrix {
 	}
 	
 	private static Matrix MakePowerOf2(Matrix MatrixA) {
-		int nueva_dim = 0;
-		if(MatrixA.getDimensiones()[0]>MatrixA.getDimensiones()[1]) {
-			nueva_dim = MatrixA.getDimensiones()[0];
-			int ceil = (int) (Math.ceil((Math.log(nueva_dim/Math.log(2)))));
-			int floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
-			while( !(ceil == floor)) {
-				nueva_dim++;
+		int ceil = (int) (Math.ceil((Math.log(MatrixA.getDimensiones()[0]/Math.log(2)))));
+		int floor = (int) (Math.floor(((Math.log(MatrixA.getDimensiones()[0])/Math.log(2)))));
+		if(!(MatrixA.getDimensiones()[0]==MatrixA.getDimensiones()[1])&& (ceil==floor)) {
+			int nueva_dim = 0;
+			if(MatrixA.getDimensiones()[0]>MatrixA.getDimensiones()[1]) {
+				nueva_dim = MatrixA.getDimensiones()[0];
+				ceil = (int) (Math.ceil((Math.log(nueva_dim/Math.log(2)))));
+				floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
+				while( !(ceil == floor)) {
+					nueva_dim++;
+				}
 			}
-		}
-		else if(MatrixA.getDimensiones()[1]>MatrixA.getDimensiones()[0]) {
-			nueva_dim = MatrixA.getDimensiones()[1];
-			int ceil = (int) (Math.ceil((Math.log(nueva_dim/Math.log(2)))));
-			int floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
-			while( !(ceil == floor)) {
-				nueva_dim++;
+			else if(MatrixA.getDimensiones()[1]>MatrixA.getDimensiones()[0]) {
+				nueva_dim = MatrixA.getDimensiones()[1];
+				ceil = (int) (Math.ceil((Math.log(nueva_dim/Math.log(2)))));
+				floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
+				while( !(ceil == floor)) {
+					nueva_dim++;
+				}
 			}
+			else {
+				nueva_dim = MatrixA.getDimensiones()[0];
+				ceil = (int) (Math.ceil((Math.log(nueva_dim/Math.log(2)))));
+				floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
+				while( !(ceil == floor)) {
+					nueva_dim++;
+				}
+			}
+			Matrix matrix_aux = new Matrix(nueva_dim, nueva_dim,"aux");
+			matrix_aux.FillZero();
+			matrix_aux = MathMatrix.MatrixSumException(MatrixA,matrix_aux);
+			return matrix_aux;
 		}
 		else {
-			nueva_dim = MatrixA.getDimensiones()[0];
-			int ceil = (int) (Math.ceil((Math.log(nueva_dim/Math.log(2)))));
-			int floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
-			while( !(ceil == floor)) {
-				nueva_dim++;
-			}
+			return MatrixA;
 		}
-		Matrix matrix_aux = new Matrix(nueva_dim, nueva_dim,"aux");
-		matrix_aux.FillZero();
-		matrix_aux = MathMatrix.MatrixSumException(MatrixA,matrix_aux);
-		return matrix_aux;
-	}
+		}
 	
 	public static Matrix MatrixSumException(Matrix MatrixA, Matrix MatrixB) 
 	{
@@ -178,7 +185,85 @@ public class MathMatrix {
 		}
 		return Det3x3;
 	}
-        
+	
+	public static double Determinante(Matrix matrixA) {
+		if(matrixA.IsSquared()) {
+			double determinante = 0;
+			return determinante;
+		}
+		else {
+			throw new Error("Matrix Isn't Squared");
+		}
+	}
+	
+	public static Matrix MatrizIdentidad(Matrix matrixA) {
+		for(int i = 0; i<matrixA.filas; i++) {
+			for(int j = 0; j<matrixA.columnas; j++) {
+				if(i==j) {
+					matrixA.getContent()[i][j] = 1;
+				}
+				else {
+					matrixA.getContent()[i][j] = 0;
+				}
+			}
+		}
+		return matrixA;
+	}
+	
+	public Matrix getMatrizInversa(Matrix matriz) 
+	{
+		int numero_incognitas= matriz.content[0].length-1;
+		Matrix matrixID = MatrizIdentidad(matriz);
+		for(int x = 0 ; x < numero_incognitas; x++  ) 
+		{
+			// Cada columna
+			if(matriz.content[x][x]== 0) 
+			{
+				int seq_search = 1;
+				while( matriz.content[x+seq_search][x] == 0 && seq_search+x < numero_incognitas) 
+				{
+					seq_search++;
+				}
+				
+				for(int k = 0; k <= numero_incognitas; k++) 
+				{
+					double temp = matriz.content[x][k] ;
+					matriz.content[x][k] = matriz.content[x+seq_search][k];
+					matriz.content[x+seq_search][k] = temp ;
+				}
+			}			
+			for(int y = 0; y < numero_incognitas; y++) 
+			{
+				//Ignorar las diagonales pues es lo primero que checamos 
+				if(x==y) {continue;}
+				
+				double pivote = 0;
+				pivote =  matriz.content[y][x]/matriz.content[x][x];
+				
+				for(int k = 0; k <= numero_incognitas; k++) 
+				{
+					matriz.content[y][k]= matriz.content[y][k] - matriz.content[x][k]*pivote;
+					matrixID.content[y][k] = matrixID.content[y][k] - matrixID.content[x][k]*pivote;
+				}	
+			}
+		}
+		return matrixID;
+	}
+	private Matrix getSimplifiedResults(Matrix matrixA) {
+		int numero_incognitas= matrixA.content[0].length-1;
+		for( int i= 0; i<numero_incognitas; i++ ) 
+		{
+			matrixA.content[i][numero_incognitas]= matrixA.content[i][numero_incognitas]/matrixA.content[i][i];
+			matrixA.content[i][i]= 1;
+		}
+		return matrixA;
+	}
+     
+	public Matrix Inversa(Matrix matrixA) {
+		matrixA = getMatrizInversa(matrixA);
+		matrixA = getSimplifiedResults(matrixA);
+		return matrixA;
+	}
 	
 }
 
