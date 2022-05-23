@@ -210,9 +210,9 @@ public class MathMatrix {
 		return matrixA;
 	}
 	
-	public Matrix getMatrizInversa(Matrix matriz) 
+	public static Matrix getMatrizInversa(Matrix matriz) 
 	{
-		int numero_incognitas= matriz.content[0].length-1;
+		int numero_incognitas= matriz.columnas-1;
 		Matrix matrixID = MatrizIdentidad(matriz);
 		for(int x = 0 ; x < numero_incognitas; x++  ) 
 		{
@@ -230,6 +230,9 @@ public class MathMatrix {
 					double temp = matriz.content[x][k] ;
 					matriz.content[x][k] = matriz.content[x+seq_search][k];
 					matriz.content[x+seq_search][k] = temp ;
+					temp = matrixID.content[x][k];
+					matrixID.content[x][k] = matrixID.content[x+seq_search][k];
+					matrixID.content[x+seq_search][k] = temp;
 				}
 			}			
 			for(int y = 0; y < numero_incognitas; y++) 
@@ -249,7 +252,7 @@ public class MathMatrix {
 		}
 		return matrixID;
 	}
-	private Matrix getSimplifiedResults(Matrix matrixA) {
+	private static Matrix getSimplifiedResults(Matrix matrixA) {
 		int numero_incognitas= matrixA.content[0].length-1;
 		for( int i= 0; i<numero_incognitas; i++ ) 
 		{
@@ -259,7 +262,7 @@ public class MathMatrix {
 		return matrixA;
 	}
      
-	public Matrix Inversa(Matrix matrixA) {
+	public static Matrix Inversa(Matrix matrixA) {
 		matrixA = getMatrizInversa(matrixA);
 		matrixA = getSimplifiedResults(matrixA);
 		return matrixA;
