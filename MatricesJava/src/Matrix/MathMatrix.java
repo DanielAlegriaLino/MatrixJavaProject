@@ -1,8 +1,4 @@
 package Matrix;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
-import java.util.Arrays;
 
 public class MathMatrix {
     
@@ -189,6 +185,37 @@ public class MathMatrix {
 	public static double Determinante(Matrix matrixA) {
 		if(matrixA.IsSquared()) {
 			double determinante = 0;
+			if(matrixA.getDimensiones()[0]==1||matrixA.getDimensiones()[0]==2) {
+				if(matrixA.getDimensiones()[0]==1) {
+					determinante = matrixA.getContent()[0][0];
+					return determinante;
+				}
+				else {
+					determinante = matrixA.getContent()[0][0]*matrixA.getContent()[1][1]-matrixA.getContent()[1][0]*matrixA.getContent()[0][1];
+					return determinante;
+				}
+			}
+			else {
+				Matrix matrixN = new Matrix(matrixA.getDimensiones()[0]-1, matrixA.getDimensiones()[1]-1,"Matriz recursiva");
+				int sign = 1;
+				double cof = 0;
+				for(int i = 0; i<matrixA.filas; i++) {
+					cof = matrixA.content[0][i];
+					for(int j = 1; j<matrixA.getDimensiones()[0];j++) {
+						int saltarFil = 0; 
+						for(int k = 0; k<matrixA.getDimensiones()[0];k++) {
+							if(j==0||i==k) {
+								continue;
+							}
+							matrixN.getContent()[j-1][saltarFil] = matrixA.getContent()[j][k];
+							saltarFil++;
+						}
+					}
+					double solInterna = sign*cof*Determinante(matrixN);	
+					determinante = determinante+solInterna;
+					sign*=-1;
+				}
+			}
 			return determinante;
 		}
 		else {
@@ -209,64 +236,15 @@ public class MathMatrix {
 		}
 		return matrixA;
 	}
-	
-	public static Matrix getMatrizInversa(Matrix matriz) 
-	{
-		int numero_incognitas= matriz.columnas-1;
-		Matrix matrixID = MatrizIdentidad(matriz);
-		for(int x = 0 ; x < numero_incognitas; x++  ) 
-		{
-			// Cada columna
-			if(matriz.content[x][x]== 0) 
-			{
-				int seq_search = 1;
-				while( matriz.content[x+seq_search][x] == 0 && seq_search+x < numero_incognitas) 
-				{
-					seq_search++;
-				}
-				
-				for(int k = 0; k <= numero_incognitas; k++) 
-				{
-					double temp = matriz.content[x][k] ;
-					matriz.content[x][k] = matriz.content[x+seq_search][k];
-					matriz.content[x+seq_search][k] = temp ;
-					temp = matrixID.content[x][k];
-					matrixID.content[x][k] = matrixID.content[x+seq_search][k];
-					matrixID.content[x+seq_search][k] = temp;
-				}
-			}			
-			for(int y = 0; y < numero_incognitas; y++) 
-			{
-				//Ignorar las diagonales pues es lo primero que checamos 
-				if(x==y) {continue;}
-				
-				double pivote = 0;
-				pivote =  matriz.content[y][x]/matriz.content[x][x];
-				
-				for(int k = 0; k <= numero_incognitas; k++) 
-				{
-					matriz.content[y][k]= matriz.content[y][k] - matriz.content[x][k]*pivote;
-					matrixID.content[y][k] = matrixID.content[y][k] - matrixID.content[x][k]*pivote;
-				}	
-			}
-		}
-		return matrixID;
-	}
-	private static Matrix getSimplifiedResults(Matrix matrixA) {
-		int numero_incognitas= matrixA.content[0].length-1;
-		for( int i= 0; i<numero_incognitas; i++ ) 
-		{
-			matrixA.content[i][numero_incognitas]= matrixA.content[i][numero_incognitas]/matrixA.content[i][i];
-			matrixA.content[i][i]= 1;
-		}
-		return matrixA;
+		
+		
+	public static Matrix getSimplifiedResults(Matrix matrixA) {
+		Matrix matrix_aux = new Matrix("Holo", matrixA.getContent());
+		
+		
+		return matrix_aux;
 	}
      
-	public static Matrix Inversa(Matrix matrixA) {
-		matrixA = getMatrizInversa(matrixA);
-		matrixA = getSimplifiedResults(matrixA);
-		return matrixA;
-	}
 	
 }
 
