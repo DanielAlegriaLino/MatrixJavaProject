@@ -105,7 +105,7 @@ public class MathMatrix {
 	
 	
 	
-	public static Matrix Multiplicar(Matrix matrixA,Matrix matrixB) 
+	public static Matrix MultiplicarMatrix(Matrix matrixA,Matrix matrixB) 
 	{
         Matrix matrixC = new Matrix ("Juancho", new double[matrixA.getContent().length][matrixA.getContent().length]) ;
         for (int i = 0; i < matrixA.getContent().length; i++){
@@ -236,16 +236,7 @@ public class MathMatrix {
 		}
 		return matrixA;
 	}
-		
-		
-	public static Matrix getSimplifiedResults(Matrix matrixA) {
-		Matrix matrix_aux = new Matrix("Holo", matrixA.getContent());
-		
-		
-		return matrix_aux;
-	}
-     
-	
+			
 }
 
 
