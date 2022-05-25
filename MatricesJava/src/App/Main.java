@@ -26,7 +26,7 @@ public class Main {
                 gauss_jordan_test = MathMatrix.getMatrizEscalonada( gauss_jordan_test );
                
 
-                System.out.println(Arrays.deepToString(gauss_jordan_test.getContent()));
+                System.out.print(Arrays.deepToString(gauss_jordan_test.getContent()));
                 
 
 

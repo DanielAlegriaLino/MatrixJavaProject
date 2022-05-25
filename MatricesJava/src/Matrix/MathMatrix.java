@@ -1,7 +1,7 @@
 package Matrix;
 
 import java.util.Scanner;
-
+import java.util.Arrays;
 public class MathMatrix {
     
 	public static void UserInterface(){
@@ -178,10 +178,7 @@ public class MathMatrix {
         
         public static Matrix getMatrizEscalonada(Matrix matriz) 
 	{
-            Matrix matrix_identidad = new Matrix("helicptero", new double [][] {
-                {1,0,0},
-                {0,1,0}
-            });
+            Matrix matrix_identidad = MathMatrix.MatrizIdentidadCuadrada(matriz);
 		int numero_incognitas= matriz.getContent()[0].length-1;
 		
 		for(int x = 0 ; x < numero_incognitas; x++  ) 
@@ -195,7 +192,7 @@ public class MathMatrix {
 					seq_search++;
 				}
 				
-				for(int k = 0; k <= numero_incognitas; k++) 
+				for(int k = 0; k < numero_incognitas; k++) 
 				{
 					double temp = matriz.getContent()[x][k] ;
 					matriz.getContent()[x][k] = matriz.getContent()[x+seq_search][k];
@@ -213,7 +210,7 @@ public class MathMatrix {
 				double pivote = 0;
 				pivote =  matriz.getContent()[y][x]/matriz.getContent()[x][x];
 				
-				for(int k = 0; k <= numero_incognitas; k++) 
+				for(int k = 0; k < numero_incognitas; k++) 
 				{
                                     matrix_identidad.getContent()[y][k] = matrix_identidad.getContent()[y][k]  - matrix_identidad.getContent()[x][k]*pivote;
                                     matriz.getContent()[y][k]= matriz.getContent()[y][k] - matriz.getContent()[x][k]*pivote;
@@ -339,7 +336,7 @@ public class MathMatrix {
 	
 	public static Matrix MatrizIdentidad(Matrix matrixA) {
 		for(int i = 0; i<matrixA.filas; i++) {
-			for(int j = 0; j<matrixA.columnas; j++) {
+			for(int j = 0; j<matrixA.filas; j++) {
 				if(i==j) {
 					matrixA.getContent()[i][j] = 1;
 				}
@@ -348,8 +345,23 @@ public class MathMatrix {
 				}
 			}
 		}
+                System.out.print(Arrays.deepToString( matrixA.getContent()));
 		return matrixA;
 	}
+        
+        	public static Matrix MatrizIdentidadCuadrada(Matrix matrixA) {
+                Matrix matrix_identidad = new Matrix("pepe", new double [matrixA.getContent().length][matrixA.getContent().length] );
+                for (int i = 0 ; i < matrix_identidad.getContent().length; i++)
+                {
+                      for (int j = 0 ; j < matrix_identidad.getContent().length; j++)
+                      {
+                          if(i == j ){ matrix_identidad.getContent()[i][i]=1;}
+                      }
+                }
+                
+                  return matrix_identidad;
+	}
+        
 			
 }
 
