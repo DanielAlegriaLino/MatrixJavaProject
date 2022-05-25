@@ -1,12 +1,13 @@
 package Matrix;
-import java.io.*;
-import java.util.*;
+import java.util.Scanner;
+import java.util.Arrays;
 public class Matrix {
 	protected int filas;
 	protected int columnas;
 	protected String nombre;
 	protected int[] dimensiones;
 	protected double[][] content;
+	Scanner in = new Scanner(System.in);
 	
 	public double[][] getContent() {
 		return content;
@@ -18,8 +19,11 @@ public class Matrix {
 		this.columnas = columnas;
 		this.nombre = nombre;
 		this.content = new double[filas][columnas];
+		this.FillZero();
+		this.FillMatrix();
 		
 	}
+	
 	public Matrix(String nombre, double[][] content) 
 	{
 		this.filas = content.length;
@@ -51,6 +55,38 @@ public class Matrix {
 		}
 	}
 	
+	public void ShowMatrix() {
+		for(double[] row:this.content) {
+			System.out.println(Arrays.toString(row));
+		}
+	}
+	
+	public void FillMatrix() {
+		for(int i = 0; i<this.getDimensiones()[0];i++) {
+			for(int j = 0; j<this.getDimensiones()[1]; j++) {
+				System.out.printf("Ingrese el valor que se ubica en " + i+1,j+1 );
+				this.getContent()[i][j] = Valid(in.nextLine());
+				System.out.println("La matriz se ve así:");
+				this.ShowMatrix();
+			}
+		}
+	}
+	
+	private double Valid(String value) {
+		Boolean repetir = false;
+		double parsedValue = 0;
+		while(!repetir) {
+			try {
+				parsedValue = Double.parseDouble(value);
+				repetir = true;
+			} catch (Exception e) {
+				System.out.println("El dato ingresado no es un valor adecuado, ingrese otro");
+				value = in.nextLine();
+			}
+		}
+		return parsedValue;
+		
+	}
 	
 }
 
