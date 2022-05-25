@@ -128,8 +128,65 @@ public class MathMatrix {
         }
 		
 		
-
-	
+        
+        public static Matrix getMatrizEscalonada(Matrix matriz) 
+	{
+            Matrix matrix_identidad = new Matrix("helicptero", new double [][] {
+                {1,0,0},
+                {0,1,0}
+            });
+		int numero_incognitas= matriz.getContent()[0].length-1;
+		
+		for(int x = 0 ; x < numero_incognitas; x++  ) 
+		{
+			// Cada columna
+			if(matriz.getContent()[x][x]== 0) 
+			{
+				int seq_search = 1;
+				while( matriz.getContent()[x+seq_search][x] == 0 && seq_search+x < numero_incognitas) 
+				{
+					seq_search++;
+				}
+				
+				for(int k = 0; k <= numero_incognitas; k++) 
+				{
+					double temp = matriz.getContent()[x][k] ;
+					matriz.getContent()[x][k] = matriz.getContent()[x+seq_search][k];
+					matriz.getContent()[x+seq_search][k] = temp ;
+				}
+				
+			}
+			
+			
+			for(int y = 0; y < numero_incognitas; y++) 
+			{
+				//Ignorar las diagonales pues es lo primero que checamos 
+				if(x==y) {continue;}
+				
+				double pivote = 0;
+				pivote =  matriz.getContent()[y][x]/matriz.getContent()[x][x];
+				
+				for(int k = 0; k <= numero_incognitas; k++) 
+				{
+                                    matrix_identidad.getContent()[y][k] = matrix_identidad.getContent()[y][k]  - matrix_identidad.getContent()[x][k]*pivote;
+                                    matriz.getContent()[y][k]= matriz.getContent()[y][k] - matriz.getContent()[x][k]*pivote;
+                                        
+                                }
+				
+			}
+			
+		}
+        
+                        
+		for( int i= 0; i<numero_incognitas; i++ ) 
+		{
+                    for (int j = 0; j< numero_incognitas; j++)
+                    {
+			matrix_identidad.getContent()[i][j]= matrix_identidad.getContent()[i][j]/matriz.getContent()[i][i];                    
+                    }
+		}
+                return matrix_identidad;
+	}
                 
 	public static Matrix getCuadrante(Matrix matrixA , int posX1 , int posY1, int posX2, int posY2) 
 	{
