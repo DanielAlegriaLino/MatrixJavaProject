@@ -1,7 +1,0 @@
-package Matrix;
-
-public class MathMatrix {
-	public static boolean CompareDim(Matrix B,Matrix A){
-		return  A.filas == B.filas && A.columnas == B.columnas;
-	}
-}
