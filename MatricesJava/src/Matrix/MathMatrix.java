@@ -1,11 +1,16 @@
 package Matrix;
 
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class MathMatrix {
-    
-	public static void UserInterface(){
-		Boolean reiniciar = true;
+	
+	public static void UserInterface(ArrayList<Matrix> list){
+		Boolean reiniciar = true,reiniciar2 = true;
+		int value = 0;
 		while(reiniciar) {
 			System.out.println("Calculadora de matrices" + "\n" + "Ingrese lo que desea hacer"+"\n");
 			System.out.print("\t"+"1.- Ver las matrices disponibles"+"\n\t"+"2.- Crear una nueva matriz"+"\n\t"+
@@ -15,9 +20,17 @@ public class MathMatrix {
 			int opcion = Validator(in.nextLine());
 			switch(opcion) {
 				case 1:
-				
+					for(int i=0; i<list.size();i++) {
+						System.out.println(i+1 + ":");
+						for(double[] row:list.get(i).content) {
+							System.out.println(Arrays.toString(row));
+						}
+					System.out.println();
+				}
 					break;
 				case 2:
+					System.out.println("Ingrese la cantidad de filas de la matriz");
+					int n = in.nextInt();
 					break;
 				case 3:
 					break;
@@ -32,6 +45,32 @@ public class MathMatrix {
 				case 8:
 					break;
 			}
+			System.out.println("¿Desea realizar otra acción?" + "\n\t" + "1.-Si" + "\n\t" + "2.-No");
+			String num = in.nextLine();
+			while(reiniciar2) {
+				try {
+					value = Integer.parseInt(num);
+					if (value>0 && value<3) {    //Cambiar por switch?
+						if(value==1)
+							reiniciar2 = false;
+						if(value==2) {
+							reiniciar=false;
+							reiniciar2 = false;
+						}	
+					}
+					else {
+						System.out.println("Ha ingresado un numero no valido, ingrese 1 o 2");
+						num = in.nextLine();
+					}
+				} catch (Exception e) {
+					System.out.println("Ha ingresado un dato no valido, ingrese 1 o 2");
+					num = in.nextLine();
+				}
+				
+			}
+			
+			
+			
 		}
 	}
 	private static int Validator(String value) {
