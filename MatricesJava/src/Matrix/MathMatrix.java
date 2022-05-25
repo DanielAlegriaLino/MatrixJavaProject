@@ -11,13 +11,24 @@ public class MathMatrix {
 	public static void UserInterface(ArrayList<Matrix> list){
 		Boolean reiniciar = true,reiniciar2 = true;
 		int value = 0;
+		Matrix matrixA,matrixB;
 		while(reiniciar) {
 			System.out.println("Calculadora de matrices" + "\n" + "Ingrese lo que desea hacer"+"\n");
-			System.out.print("\t"+"1.- Ver las matrices disponibles"+"\n\t"+"2.- Crear una nueva matriz"+"\n\t"+
+			System.out.print("\t"+"1.- Seleccionar una matriz"+"\n\t"+"2.- Crear una nueva matriz"+"\n\t"+
 			"3.- Suma de matrices" + "\n\t" + "4.-Resta de matrices" + "\n\t" + "5.- Multiplicacion de matrices" + "\n\t" +
 			"6.- Determinante de matriz" + "\n\t" + "7.- Inversa de matriz" + "\n\t" + "8.- Multiplicacion por escalar");
 			Scanner in = new Scanner(System.in);
 			int opcion = Validator(in.nextLine());
+			while(reiniciar2) {
+				if(opcion<=0 || opcion>8) {
+					System.out.println("El numero ingresado esta fuera del rango, ingrese otro");
+					opcion = Validator(in.nextLine());
+				}
+				else {
+					reiniciar2=false;  //Point of interest;
+				}
+			}
+			reiniciar2 = true;
 			switch(opcion) {
 				case 1:
 					for(int i=0; i<list.size();i++) {
@@ -26,6 +37,9 @@ public class MathMatrix {
 							System.out.println(Arrays.toString(row));
 						}
 					System.out.println();
+					System.out.println("Ingrese el numero de la matriz que desea usar:");
+					opcion = Validator(in.nextLine());
+					
 				}
 					break;
 				case 2:
@@ -80,12 +94,7 @@ public class MathMatrix {
 		while(reiniciar) {
 			try {
 				parsedValue = Integer.parseInt(value);
-				if(parsedValue>0 && parsedValue<9)
-					reiniciar = false;				
-				else {
-					System.out.println("El valor ingresado no es valido, ingrese otro");
-					value = in.nextLine();					
-				}
+				reiniciar = false;
 			}catch (Exception e) {
 				System.out.println("El valor ingresado no es valido, ingrese otro");
 				in = new Scanner(System.in);
