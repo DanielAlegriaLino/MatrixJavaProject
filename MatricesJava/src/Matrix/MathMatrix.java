@@ -1,7 +1,60 @@
 package Matrix;
 
+import java.util.Scanner;
+
 public class MathMatrix {
     
+	public static void UserInterface(){
+		Boolean reiniciar = true;
+		while(reiniciar) {
+			System.out.println("Calculadora de matrices" + "\n" + "Ingrese lo que desea hacer"+"\n");
+			System.out.print("\t"+"1.- Ver las matrices disponibles"+"\n\t"+"2.- Crear una nueva matriz"+"\n\t"+
+			"3.- Suma de matrices" + "\n\t" + "4.-Resta de matrices" + "\n\t" + "5.- Multiplicacion de matrices" + "\n\t" +
+			"6.- Determinante de matriz" + "\n\t" + "7.- Inversa de matriz" + "\n\t" + "8.- Multiplicacion por escalar");
+			Scanner in = new Scanner(System.in);
+			int opcion = Validator(in.nextLine());
+			switch(opcion) {
+				case 1:
+				
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				case 6:
+					break;
+				case 7:
+					break;
+				case 8:
+					break;
+			}
+		}
+	}
+	private static int Validator(String value) {
+		Boolean reiniciar = true;
+		int parsedValue = 0;
+		Scanner in = new Scanner(System.in);
+		while(reiniciar) {
+			try {
+				parsedValue = Integer.parseInt(value);
+				if(parsedValue>0 && parsedValue<9)
+					reiniciar = false;				
+				else {
+					System.out.println("El valor ingresado no es valido, ingrese otro");
+					value = in.nextLine();					
+				}
+			}catch (Exception e) {
+				System.out.println("El valor ingresado no es valido, ingrese otro");
+				in = new Scanner(System.in);
+				value = in.nextLine();
+			}
+		}
+		return parsedValue;
+	}
 	private static boolean compareDim(Matrix Matrix_B,Matrix Matrix_A){
 		return  Matrix_A.getDimensiones()[0] == Matrix_B.getDimensiones()[0] &&
 				Matrix_A.getDimensiones()[1] == Matrix_B.getDimensiones()[1] ;

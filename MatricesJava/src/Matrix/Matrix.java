@@ -66,6 +66,7 @@ public class Matrix {
 			for(int j = 0; j<this.getDimensiones()[1]; j++) {
 				System.out.printf("Ingrese el valor que se ubica en " + i+1,j+1 );
 				this.getContent()[i][j] = Valid(in.nextLine());
+				System.out.println("La matriz se ve así:");
 				this.ShowMatrix();
 			}
 		}
