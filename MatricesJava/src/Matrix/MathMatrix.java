@@ -78,6 +78,7 @@ public class MathMatrix {
 					matrixB = getMatrixA(list);
 					if(compareDim(matrixA,matrixB)) {
 						Matrix sumaMatrix = MatrixSum(matrixA,matrixB);
+						System.out.println("La suma resulta en la siguiente matriz:");
 						sumaMatrix.ShowMatrix();
 					}
 					else
@@ -90,6 +91,7 @@ public class MathMatrix {
 					matrixB = getMatrixA(list);
 					if(compareDim(matrixA,matrixB)) {
 						Matrix restaMatrix = MatrixDifferences(matrixA,matrixB);
+						System.out.println("La resta resulta en la siguiente matriz:");
 						restaMatrix.ShowMatrix();
 					}
 					else
@@ -102,6 +104,7 @@ public class MathMatrix {
 					matrixB = getMatrixA(list);
 					if(CompareCompatibility(matrixA,matrixB)) {
 						Matrix matrixProduct = MultiplicarMatrix(matrixA,matrixB);
+						System.out.println("La multiplicacion resulta en la siguiente matriz:");
 						matrixProduct.ShowMatrix();
 					}
 					else
@@ -119,7 +122,11 @@ public class MathMatrix {
 				case 7:
 					matrixA = getMatrixA(list);
 					if(matrixA.IsSquared() && Determinante(matrixA)!=0) {
+						matrixA = zeroCol(matrixA);
 						Matrix matrixInversa = getMatrizEscalonada(matrixA);
+						if(matrixInversa.columnas == 2)
+							matrixInversa = swapCol(matrixInversa);
+						System.out.println("La matriz inversa es la siguiente matriz:");
 						matrixInversa.ShowMatrix();
 					}
 					break;
@@ -128,6 +135,7 @@ public class MathMatrix {
 					System.out.println("Ingrese el numero por el que desea multiplicar la matriz");
 					double escalar = ValidatorDouble(in.nextLine());
 					Matrix escalarMatrix = MultiplicacionEscalar(matrixA,escalar);
+					System.out.println("La multiplicacion resulta en la siguiente matriz:");
 					escalarMatrix.ShowMatrix();
 					break;
 			}
@@ -254,45 +262,6 @@ public class MathMatrix {
 		}
 	}
 	
-	private static Matrix MakePowerOf2(Matrix MatrixA) {
-		int ceil = (int) (Math.ceil((Math.log(MatrixA.getDimensiones()[0]/Math.log(2)))));
-		int floor = (int) (Math.floor(((Math.log(MatrixA.getDimensiones()[0])/Math.log(2)))));
-		if(!(MatrixA.getDimensiones()[0]==MatrixA.getDimensiones()[1])&& (ceil==floor)) {
-			int nueva_dim = 0;
-			if(MatrixA.getDimensiones()[0]>MatrixA.getDimensiones()[1]) {
-				nueva_dim = MatrixA.getDimensiones()[0];
-				ceil = (int) (Math.ceil((Math.log(nueva_dim/Math.log(2)))));
-				floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
-				while( !(ceil == floor)) {
-					nueva_dim++;
-				}
-			}
-			else if(MatrixA.getDimensiones()[1]>MatrixA.getDimensiones()[0]) {
-				nueva_dim = MatrixA.getDimensiones()[1];
-				ceil = (int) (Math.ceil((Math.log(nueva_dim/Math.log(2)))));
-				floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
-				while( !(ceil == floor)) {
-					nueva_dim++;
-				}
-			}
-			else {
-				nueva_dim = MatrixA.getDimensiones()[0];
-				ceil = (int) (Math.ceil((Math.log(nueva_dim/Math.log(2)))));
-				floor = (int) (Math.floor(((Math.log(nueva_dim)/Math.log(2)))));
-				while( !(ceil == floor)) {
-					nueva_dim++;
-				}
-			}
-			Matrix matrix_aux = new Matrix(nueva_dim, nueva_dim,"aux");
-			matrix_aux.FillZero();
-			matrix_aux = MathMatrix.MatrixSumException(MatrixA,matrix_aux);
-			return matrix_aux;
-		}
-		else {
-			return MatrixA;
-		}
-		}
-	
 	public static Matrix MatrixSumException(Matrix MatrixA, Matrix MatrixB) 
 	{
 		Matrix matrix_aux = new Matrix(MatrixB.filas, MatrixB.columnas, "aux");
@@ -304,8 +273,7 @@ public class MathMatrix {
 		return matrix_aux;
 		}	
 	
-	
-	
+		
 	public static Matrix MultiplicarMatrix(Matrix matrixA,Matrix matrixB) 
 	{
         Matrix matrixC = new Matrix ("Juancho", new double[matrixA.getContent().length][matrixA.getContent().length]) ;
@@ -380,21 +348,6 @@ public class MathMatrix {
                 return matrix_identidad;
 	}
                 
-	public static Matrix getCuadrante(Matrix matrixA , int posX1 , int posY1, int posX2, int posY2) 
-	{
-		Matrix matrix_sliced;
-                matrix_sliced= new Matrix("aux", new double [posY2-posY1][posX2-posX1]);
-                
-		for(int i = posY1; i< posY2; i++) 
-                {
-                    for (int j = posX1 ; j < posX2; j++)
-                    {
-                        matrix_sliced.content[i-posY1][j-posX1]= matrixA.content[i][j];
-                    }
-                }
-
-		return  matrix_sliced;
-	}
 	
 	public static double getDeterminante(Matrix matrixA) {
 		double determinante = 0;
@@ -493,10 +446,25 @@ public class MathMatrix {
 				}
 			}
 		}
-                System.out.print(Arrays.deepToString( matrixA.getContent()));
 		return matrixA;
 	}
         
+	public static Matrix zeroCol(Matrix matrixA) {
+		Matrix matrix_aux = new Matrix(matrixA.filas,matrixA.columnas+1,"Extra cero");
+		matrix_aux = MatrixSumException(matrixA,matrix_aux);
+		return matrix_aux;
+	}
+	
+	public static Matrix swapCol(Matrix matrixA) {
+		Matrix matrix_aux = new Matrix(matrixA.filas,matrixA.columnas,"Cambiar col");
+		matrix_aux.getContent()[0][0] = matrixA.getContent()[0][1];
+		matrix_aux.getContent()[0][1] = matrixA.getContent()[0][0];
+		matrix_aux.getContent()[1][0] = matrixA.getContent()[1][1];
+		matrix_aux.getContent()[1][1] = matrixA.getContent()[1][0];
+		return matrix_aux;
+		
+	}
+	
         	public static Matrix MatrizIdentidadCuadrada(Matrix matrixA) {
                 Matrix matrix_identidad = new Matrix("pepe", new double [matrixA.getContent().length][matrixA.getContent().length] );
                 for (int i = 0 ; i < matrix_identidad.getContent().length; i++)
