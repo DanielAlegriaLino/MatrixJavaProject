@@ -8,6 +8,11 @@ import java.util.List;
 
 public class MathMatrix {
 	
+	public static void saveMatrix(ArrayList <Matrix> list) {
+		System.out.println("¿Quiere guardar esta matriz?");
+		
+	}
+	
 	public static Matrix getMatrixA(ArrayList<Matrix> list) {
 		Scanner in = new Scanner(System.in);
 		Boolean reiniciar = true;
@@ -77,9 +82,14 @@ public class MathMatrix {
 					System.out.println("Ingrese la matriz B que se le sumara a A");
 					matrixB = getMatrixA(list);
 					if(compareDim(matrixA,matrixB)) {
-						Matrix sumaMatrix = MatrixSum(matrixA,matrixB);
-						System.out.println("La suma resulta en la siguiente matriz:");
-						sumaMatrix.ShowMatrix();
+						try {
+							Matrix sumaMatrix = MatrixSum(matrixA,matrixB);
+							System.out.println("La suma resulta en la siguiente matriz:");
+							sumaMatrix.ShowMatrix();
+						}
+						catch(Exception e){
+							System.out.println("Esta suma no esta definida, las matrices son de dimensiones diferentes");
+						}
 					}
 					else
 						System.out.println("La suma de estas matrices no esta definida, pues son de tamaños distintos");
@@ -90,9 +100,14 @@ public class MathMatrix {
 					matrixA = getMatrixA(list);
 					matrixB = getMatrixA(list);
 					if(compareDim(matrixA,matrixB)) {
-						Matrix restaMatrix = MatrixDifferences(matrixA,matrixB);
-						System.out.println("La resta resulta en la siguiente matriz:");
-						restaMatrix.ShowMatrix();
+						try {
+							Matrix restaMatrix = MatrixDifferences(matrixA,matrixB);
+							System.out.println("La resta resulta en la siguiente matriz:");
+							restaMatrix.ShowMatrix();
+						}
+						catch(Exception e) {
+							System.out.println("La resta de estas matrices no esta definida, pues son de tamaños distintos");
+						}
 					}
 					else
 						System.out.println("La resta de estas matrices no esta definida, pues son de tamaños distintos");
@@ -103,9 +118,14 @@ public class MathMatrix {
 					matrixA = getMatrixA(list);
 					matrixB = getMatrixA(list);
 					if(CompareCompatibility(matrixA,matrixB)) {
-						Matrix matrixProduct = MultiplicarMatrix(matrixA,matrixB);
-						System.out.println("La multiplicacion resulta en la siguiente matriz:");
-						matrixProduct.ShowMatrix();
+						try {
+							Matrix matrixProduct = MultiplicarMatrix(matrixA,matrixB);
+							System.out.println("La multiplicacion resulta en la siguiente matriz:");
+							matrixProduct.ShowMatrix();
+						}
+						catch(Exception e){
+							System.out.println("Las matrices no pueden multiplicarse por la diferencia entre columnas A y filas B");
+						}
 					}
 					else
 						System.out.println("Las matrices no pueden multiplicarse por la diferencia entre columnas A y filas B");
@@ -114,21 +134,33 @@ public class MathMatrix {
 					///////////////////////////////////////////////////////////////////////////////////
 				case 6:
 					matrixA = getMatrixA(list);
-					double determinante = Determinante(matrixA);
-					System.out.println("El determinante es: " + determinante);
+					try {
+						double determinante = Determinante(matrixA);
+						System.out.println("El determinante es: " + determinante);
+					}
+					catch(Exception e){
+						System.out.println("La matriz no es cuadrada, por ende no tiene determinante");
+					}
 					break;
 					///////////////////////////////////////////////////////////////////////////////////	
 					///////////////////////////////////////////////////////////////////////////////////
 				case 7:
 					matrixA = getMatrixA(list);
 					if(matrixA.IsSquared() && Determinante(matrixA)!=0) {
-						matrixA = zeroCol(matrixA);
-						Matrix matrixInversa = getMatrizEscalonada(matrixA);
-						if(matrixInversa.columnas == 2)
-							matrixInversa = swapCol(matrixInversa);
-						System.out.println("La matriz inversa es la siguiente matriz:");
-						matrixInversa.ShowMatrix();
+						try {
+							matrixA = zeroCol(matrixA);
+							Matrix matrixInversa = getMatrizEscalonada(matrixA);
+							if(matrixInversa.columnas == 2)
+								matrixInversa = swapCol(matrixInversa);
+							System.out.println("La matriz inversa es la siguiente matriz:");
+							matrixInversa.ShowMatrix();
+						}
+						catch(Exception e) {
+							System.out.println("Esta matriz no tiene inversa, pues su determinante es cero o no es cuadrada");
+						}
 					}
+					else 
+						System.out.println("Esta matriz no tiene inversa, pues su determinante es cero o no es cuadrada");
 					break;
 				case 8:
 					matrixA = getMatrixA(list);
@@ -240,7 +272,7 @@ public class MathMatrix {
 		Matrix matrix_aux = new Matrix(MatrixA.filas,MatrixA.columnas,"aux");
 		for(int i = 0; i<MatrixA.filas; i++) {
 			for(int j = 0; j<MatrixA.columnas; j++) {
-				matrix_aux.content[i][j] = matrix_aux.content[i][j]*escalar;
+				matrix_aux.content[i][j] = MatrixA.content[i][j]*escalar;
 			}
 		}
 		return matrix_aux;
