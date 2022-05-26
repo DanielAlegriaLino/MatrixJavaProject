@@ -8,13 +8,38 @@ import java.util.List;
 
 public class MathMatrix {
 	
+	public static Matrix getMatrixA(ArrayList<Matrix> list) {
+		Scanner in = new Scanner(System.in);
+		Boolean reiniciar = true;
+		Matrix matrixA = new Matrix("0",new double[][] {
+			{0}});
+		System.out.println("Ingrese el numero de matriz que desea utilizar");
+		ShowMatrixes(list);
+		int n = Validator(in.nextLine());
+		while(reiniciar) {
+			if(n>list.size() || n<0) {
+				System.out.println("Ha ingresado un numero de matriz fuera de rango, ingrese otro");
+				n = Validator(in.nextLine());
+			}
+			else {
+				matrixA = list.get(n-1);
+				reiniciar = false;
+			}
+		}
+		return matrixA;
+	}
+	
 	public static void UserInterface(ArrayList<Matrix> list){
 		Boolean reiniciar = true,reiniciar2 = true;
 		int value = 0;
-		Matrix matrixA,matrixB;
+		Matrix matrixA = new Matrix("0",new double[][] {
+			{0}
+		}),matrixB = new Matrix("0",new double[][] {
+			{0}
+		});
 		while(reiniciar) {
 			System.out.println("Calculadora de matrices" + "\n" + "Ingrese lo que desea hacer"+"\n");
-			System.out.print("\t"+"1.- Seleccionar una matriz"+"\n\t"+"2.- Crear una nueva matriz"+"\n\t"+
+			System.out.print("\t"+"1.- Ver matrices"+"\n\t"+"2.- Crear una nueva matriz"+"\n\t"+
 			"3.- Suma de matrices" + "\n\t" + "4.-Resta de matrices" + "\n\t" + "5.- Multiplicacion de matrices" + "\n\t" +
 			"6.- Determinante de matriz" + "\n\t" + "7.- Inversa de matriz" + "\n\t" + "8.- Multiplicacion por escalar");
 			Scanner in = new Scanner(System.in);
@@ -31,32 +56,79 @@ public class MathMatrix {
 			reiniciar2 = true;
 			switch(opcion) {
 				case 1:
-					for(int i=0; i<list.size();i++) {
-						System.out.println(i+1 + ":");
-						for(double[] row:list.get(i).content) {
-							System.out.println(Arrays.toString(row));
-						}
-					System.out.println();
-					System.out.println("Ingrese el numero de la matriz que desea usar:");
-					opcion = Validator(in.nextLine());
-					
-				}
+					ShowMatrixes(list);
 					break;
+					///////////////////////////////////////////////////////////////////////////////////	
+					///////////////////////////////////////////////////////////////////////////////////
 				case 2:
 					System.out.println("Ingrese la cantidad de filas de la matriz");
-					int n = in.nextInt();
+					int n = Validator(in.nextLine());
+					System.out.println("Ingrese la cantidad de columnas de la matriz");
+					int m = Validator(in.nextLine());
+					System.out.println("Ingrese el nombre de la matriz");
+					String name = in.nextLine();
+					list.add(new Matrix(n,m,name));
+					list.get(list.size()-1).FillMatrix();
 					break;
+					///////////////////////////////////////////////////////////////////////////////////	
+					///////////////////////////////////////////////////////////////////////////////////
 				case 3:
+					matrixA = getMatrixA(list);
+					System.out.println("Ingrese la matriz B que se le sumara a A");
+					matrixB = getMatrixA(list);
+					if(compareDim(matrixA,matrixB)) {
+						Matrix sumaMatrix = MatrixSum(matrixA,matrixB);
+						sumaMatrix.ShowMatrix();
+					}
+					else
+						System.out.println("La suma de estas matrices no esta definida, pues son de tamaños distintos");
 					break;
+				///////////////////////////////////////////////////////////////////////////////////	
+				///////////////////////////////////////////////////////////////////////////////////	
 				case 4:
+					matrixA = getMatrixA(list);
+					matrixB = getMatrixA(list);
+					if(compareDim(matrixA,matrixB)) {
+						Matrix restaMatrix = MatrixDifferences(matrixA,matrixB);
+						restaMatrix.ShowMatrix();
+					}
+					else
+						System.out.println("La resta de estas matrices no esta definida, pues son de tamaños distintos");
 					break;
+					///////////////////////////////////////////////////////////////////////////////////	
+					///////////////////////////////////////////////////////////////////////////////////
 				case 5:
+					matrixA = getMatrixA(list);
+					matrixB = getMatrixA(list);
+					if(CompareCompatibility(matrixA,matrixB)) {
+						Matrix matrixProduct = MultiplicarMatrix(matrixA,matrixB);
+						matrixProduct.ShowMatrix();
+					}
+					else
+						System.out.println("Las matrices no pueden multiplicarse por la diferencia entre columnas A y filas B");
 					break;
+					///////////////////////////////////////////////////////////////////////////////////	
+					///////////////////////////////////////////////////////////////////////////////////
 				case 6:
+					matrixA = getMatrixA(list);
+					double determinante = Determinante(matrixA);
+					System.out.println("El determinante es: " + determinante);
 					break;
+					///////////////////////////////////////////////////////////////////////////////////	
+					///////////////////////////////////////////////////////////////////////////////////
 				case 7:
+					matrixA = getMatrixA(list);
+					if(matrixA.IsSquared() && Determinante(matrixA)!=0) {
+						Matrix matrixInversa = getMatrizEscalonada(matrixA);
+						matrixInversa.ShowMatrix();
+					}
 					break;
 				case 8:
+					matrixA = getMatrixA(list);
+					System.out.println("Ingrese el numero por el que desea multiplicar la matriz");
+					double escalar = ValidatorDouble(in.nextLine());
+					Matrix escalarMatrix = MultiplicacionEscalar(matrixA,escalar);
+					escalarMatrix.ShowMatrix();
 					break;
 			}
 			System.out.println("¿Desea realizar otra acción?" + "\n\t" + "1.-Si" + "\n\t" + "2.-No");
@@ -87,6 +159,16 @@ public class MathMatrix {
 			
 		}
 	}
+	private static void ShowMatrixes(ArrayList<Matrix> list) {
+		for(int i=0; i<list.size();i++) {
+			System.out.println(i+1 + ":");
+			for(double[] row:list.get(i).content) {
+				System.out.println(Arrays.toString(row));
+			}
+		System.out.println();
+		}
+	}	
+	
 	private static int Validator(String value) {
 		Boolean reiniciar = true;
 		int parsedValue = 0;
@@ -103,6 +185,24 @@ public class MathMatrix {
 		}
 		return parsedValue;
 	}
+	
+	private static double ValidatorDouble(String value) {
+		Boolean reiniciar = true;
+		double parsedValue = 0;
+		Scanner in = new Scanner(System.in);
+		while(reiniciar) {
+			try {
+				parsedValue = Double.parseDouble(value);
+				reiniciar = false;
+			}catch (Exception e) {
+				System.out.println("El valor ingresado no es valido, ingrese otro");
+				in = new Scanner(System.in);
+				value = in.nextLine();
+			}
+		}
+		return parsedValue;
+	}
+	
 	private static boolean compareDim(Matrix Matrix_B,Matrix Matrix_A){
 		return  Matrix_A.getDimensiones()[0] == Matrix_B.getDimensiones()[0] &&
 				Matrix_A.getDimensiones()[1] == Matrix_B.getDimensiones()[1] ;
@@ -128,7 +228,7 @@ public class MathMatrix {
 		}
 	}
 
-	public static Matrix MultiplicacionEscalar(Matrix MatrixA,int escalar) {
+	public static Matrix MultiplicacionEscalar(Matrix MatrixA,double escalar) {
 		Matrix matrix_aux = new Matrix(MatrixA.filas,MatrixA.columnas,"aux");
 		for(int i = 0; i<MatrixA.filas; i++) {
 			for(int j = 0; j<MatrixA.columnas; j++) {
@@ -260,8 +360,8 @@ public class MathMatrix {
 				
 				for(int k = 0; k < numero_incognitas; k++) 
 				{
-                                    matrix_identidad.getContent()[y][k] = matrix_identidad.getContent()[y][k]  - matrix_identidad.getContent()[x][k]*pivote;
-                                    matriz.getContent()[y][k]= matriz.getContent()[y][k] - matriz.getContent()[x][k]*pivote;
+					matrix_identidad.getContent()[y][k] = matrix_identidad.getContent()[y][k]  - matrix_identidad.getContent()[x][k]*pivote;
+                    matriz.getContent()[y][k]= matriz.getContent()[y][k] - matriz.getContent()[x][k]*pivote;
                                         
                                 }
 				
