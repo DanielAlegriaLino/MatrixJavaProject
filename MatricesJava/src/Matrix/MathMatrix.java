@@ -40,7 +40,7 @@ public class MathMatrix {
 		while(reiniciar) {
 			System.out.println("Calculadora de matrices" + "\n" + "Ingrese lo que desea hacer"+"\n");
 			System.out.print("\t"+"1.- Ver matrices"+"\n\t"+"2.- Crear una nueva matriz"+"\n\t"+
-			"3.- Suma de matrices" + "\n\t" + "4.-Resta de matrices" + "\n\t" + "5.- Multiplicacion de matrices" + "\n\t" +
+			"3.- Suma de matrices" + "\n\t" + "4.- Resta de matrices" + "\n\t" + "5.- Multiplicacion de matrices" + "\n\t" +
 			"6.- Determinante de matriz" + "\n\t" + "7.- Inversa de matriz" + "\n\t" + "8.- Multiplicacion por escalar");
 			Scanner in = new Scanner(System.in);
 			int opcion = Validator(in.nextLine());

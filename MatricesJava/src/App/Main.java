@@ -37,13 +37,14 @@ public class Main {
 	    	{3,-2,1,3,-2}
 		});
 		matrixsDisponibles.add(mi_matrix4);
+        MathMatrix.UserInterface(matrixsDisponibles);
         
-		Matrix mi_matrix1 = new Matrix("pepe", new double[][] {
+		Matrix mi_matrix11 = new Matrix("pepe", new double[][] {
 			{1, 2, 3, 4},
 			{5, 6, 7 ,8 },
 			{9,10,11,12}} ) ;
                 
-                Matrix mi_matrix2 = new Matrix("pepe", new double[][] {
+        Matrix mi_matrix21 = new Matrix("pepe", new double[][] {
 			{1, 2, 3, 4},
 			{5, 6, 7 ,8 },
 			{9,10,11,12}} ) ;
@@ -52,11 +53,7 @@ public class Main {
                     {1,3,0},
                     {2,4,0}
                 });
-                
-                gauss_jordan_test = MathMatrix.getMatrizEscalonada( gauss_jordan_test );
                
-
-                System.out.print(Arrays.deepToString(gauss_jordan_test.getContent()));
                 
 
 

@@ -20,8 +20,6 @@ public class Matrix {
 		this.nombre = nombre;
 		this.content = new double[filas][columnas];
 		this.FillZero();
-		this.FillMatrix();
-		
 	}
 	
 	public Matrix(String nombre, double[][] content) 
@@ -62,9 +60,9 @@ public class Matrix {
 	}
 	
 	public void FillMatrix() {
-		for(int i = 0; i<this.getDimensiones()[0];i++) {
-			for(int j = 0; j<this.getDimensiones()[1]; j++) {
-				System.out.printf("Ingrese el valor que se ubica en " + i+1,j+1 + "\n" );
+		for(int i = 0; i<this.filas;i++) {
+			for(int j = 0; j<this.columnas; j++) {
+				System.out.println("Ingrese el valor que se ubica en " + (i+1) + ","+ (j+1) + "\n" );
 				this.getContent()[i][j] = Valid(in.nextLine());
 				System.out.println("La matriz se ve así:");
 				this.ShowMatrix();
