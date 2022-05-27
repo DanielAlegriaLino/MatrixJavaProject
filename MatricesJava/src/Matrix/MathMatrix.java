@@ -322,8 +322,6 @@ public class MathMatrix {
                     return matrixC;
         }
 		
-		
-        
         public static Matrix getMatrizEscalonada(Matrix matriz) 
 	{
             Matrix matrix_identidad = MathMatrix.MatrizIdentidadCuadrada(matriz);
@@ -362,70 +360,19 @@ public class MathMatrix {
 				{
 					matrix_identidad.getContent()[y][k] = matrix_identidad.getContent()[y][k]  - matrix_identidad.getContent()[x][k]*pivote;
                     matriz.getContent()[y][k]= matriz.getContent()[y][k] - matriz.getContent()[x][k]*pivote;
-                                        
-                                }
-				
-			}
-			
-		}
-        
-                        
+                }				
+			}			
+		}                   
 		for( int i= 0; i<numero_incognitas; i++ ) 
 		{
-                    for (int j = 0; j< numero_incognitas; j++)
-                    {
-			matrix_identidad.getContent()[i][j]= matrix_identidad.getContent()[i][j]/matriz.getContent()[i][i];                    
-                    }
+			for (int j = 0; j< numero_incognitas; j++)
+            {
+				matrix_identidad.getContent()[i][j]= matrix_identidad.getContent()[i][j]/matriz.getContent()[i][i];                    
+            }
 		}
-                return matrix_identidad;
+        return matrix_identidad;
 	}
                 
-	
-	public static double getDeterminante(Matrix matrixA) {
-		double determinante = 0;
-		if(!matrixA.IsSquared()) {
-			throw new Error("Matrix Doesn't Have a Determinant");
-		}
-		else if(matrixA.getDimensiones()[0]>3) {
-			throw new Error("Matrix Dimensions Bigger Than Limit");
-		}
-		else {
-			if(matrixA.getDimensiones()[0]==3) {
-				Matrix matrixDet = DeterminantMatrix(matrixA);
-				determinante = determinante3x3(matrixA, matrixDet);
-			}
-			else if(matrixA.getDimensiones()[0]==2) {
-				determinante = matrixA.getContent()[0][0]*matrixA.getContent()[1][1]-matrixA.getContent()[1][0]*matrixA.getContent()[0][1];
-				
-			}
-		}
-		return determinante;
-	}
-	
-	public static double determinante3x3(Matrix matrixA,Matrix Det3x3) {
-		double multipDiagonal1 = 0;
-		for(int i = 0; i < 3; i++) {
-			multipDiagonal1 += (Det3x3.getContent()[i][0]*Det3x3.getContent()[i+1][1]*Det3x3.getContent()[i+2][2]);
-		}
-		double multipDiagonal2 = 0;
-		for(int i = Det3x3.getDimensiones()[0]-1;i>=2;i--) {
-			multipDiagonal2 += (Det3x3.getContent()[i][0]*Det3x3.getContent()[i-1][1]*Det3x3.getContent()[i-2][2]);
-		}
-		double determinante = multipDiagonal1-multipDiagonal2;
-		return determinante;
-	}
-	
-	public static Matrix DeterminantMatrix(Matrix matrixA) {
-		Matrix Det3x3 = new Matrix(5,3, "Roberto");
-		Det3x3 = MathMatrix.MatrixSumException(matrixA, Det3x3);
-		for(int i = 0; i < 2; i++) {
-			for(int j = 0; j < Det3x3.getDimensiones()[1]; j++) {
-				Det3x3.content[i+3][j] = matrixA.content[i][j]; 
-			}
-		}
-		return Det3x3;
-	}
-	
 	public static double Determinante(Matrix matrixA) {
 		if(matrixA.IsSquared()) {
 			double determinante = 0;
